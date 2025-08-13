@@ -2,9 +2,10 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 import random
 import string
+import os
 
 app = Flask(__name__)
-CORS(app)  # allow CORS for local HTML access
+CORS(app)
 
 # Store only one key at a time
 api_key = None
@@ -21,4 +22,5 @@ def get_key():
     return jsonify({"key": api_key})
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Render uses this PORT env variable
+    app.run(host="0.0.0.0", port=port)
